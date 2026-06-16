@@ -22,26 +22,27 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        Browser / React UI                        │
-│   ┌──────────┐  ┌────────────┐  ┌──────────┐  ┌────────────┐  │
-│   │ Stat Cards│  │Queue Depth │  │Worker Grid│  │ Task Feed  │  │
-│   └──────────┘  └────────────┘  └──────────┘  └────────────┘  │
+│                        Browser / React UI                       │
+│   ┌──────────┐  ┌────────────┐  ┌──────────┐  ┌────────────┐    │
+│   │   Stat   │  │   Queue    │  │   Worker │  │   Task     │    │
+│   │   Cards  │  │   Depth    │  │   Grid   │  │   Feed     │    │
+│   └──────────┘  └────────────┘  └──────────┘  └────────────┘    │
 └───────────────────────────┬─────────────────────────────────────┘
                             │ WebSocket (ws://localhost:8000/ws)
                             │ REST API (http://localhost:8000)
 ┌───────────────────────────▼─────────────────────────────────────┐
-│                        FastAPI Backend                           │
+│                        FastAPI Backend                          │
 │  POST /tasks/submit   GET /tasks/{id}   GET /queues  GET /ws    │
-│         │                                    │                   │
-│         ▼                                    ▼                   │
+│         │                                    │                  │
+│         ▼                                    ▼                  │
 │  celery.apply_async()            QueueInspector (inspect API)   │
 └──────────────┬──────────────────────────┬───────────────────────┘
                │                          │
                ▼                          ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                           Redis :6379                            │
-│   Broker queues: [celery] [data] [email] [reports]              │
-│   Result backend: celery-task-meta-{id}                         │
+│   Broker queues: [celery] [data] [email] [reports]               │
+│   Result backend: celery-task-meta-{id}                          │ 
 └───────────────────────────┬──────────────────────────────────────┘
                             │
         ┌───────────────────┼───────────────────┐
